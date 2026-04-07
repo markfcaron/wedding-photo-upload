@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Photos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      padding: 1.5rem;
+      max-width: 500px;
+      margin: auto;
+    }
+    button {
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+    #status {
+      margin-top: 1rem;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Upload Photos</h2>
+
+  <input
+    type="file"
+    id="files"
+    name="files"
+    accept="image/*"
+    multiple
+  >
+
+  <br>
+
+  <button onclick="upload()">Upload</button>
+
+  <div id="status"></div>
+
+<script>
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbxo5nZVdE9xqoljXpdZyBRbo0aZETLhP84EkQ9l1xgf3avR4wBdG8OrXFdsCnXsIvBq4w/exec";
+
+function upload() {
+  const files = document.getElementById("files").files;
+  const status = document.getElementById("status");
+
+  if (!files.length) {
+    status.textContent = "Please choose at least one photo.";
+    return;
+  }
+
+  const formData = new FormData();
+  for (const file of files) {
+    formData.append("file", file);
+  }
+
+  status.textContent = "Uploading…";
+
+  fetch(ENDPOINT, {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.text())
+  .then(text => {
+    status.textContent = "✅ Upload complete\n\n" + text;
+  })
+  .catch(err => {
+    status.textContent = "❌ Error:\n" + err;
+  });
+}
+</script>
+
+</body>
+</html>
