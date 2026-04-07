@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,62 +18,27 @@
       font-size: 1rem;
       margin-top: 1rem;
     }
-    #status {
-      margin-top: 1rem;
-      white-space: pre-wrap;
-    }
   </style>
 </head>
 <body>
 
-  <h2>Upload Photos</h2>
+<h2>Upload Photos</h2>
 
+<form
+  action="https://script.google.com/macros/s/AKfycbxo5nZVdE9xqoljXpdZyBRbo0aZETLhP84EkQ9l1xgf3avR4wBdG8OrXFdsCnXsIvBq4w/exec"
+  method="post"
+  enctype="multipart/form-data"
+>
   <input
     type="file"
-    id="files"
-    name="files"
+    name="file"
     accept="image/*"
     multiple
+    required
   >
-
   <br>
-
-  <button onclick="upload()">Upload</button>
-
-  <div id="status"></div>
-
-<script>
-const ENDPOINT = "https://script.google.com/macros/s/AKfycbxo5nZVdE9xqoljXpdZyBRbo0aZETLhP84EkQ9l1xgf3avR4wBdG8OrXFdsCnXsIvBq4w/exec";
-
-function upload() {
-  const files = document.getElementById("files").files;
-  const status = document.getElementById("status");
-
-  if (!files.length) {
-    status.textContent = "Please choose at least one photo.";
-    return;
-  }
-
-  const formData = new FormData();
-  for (const file of files) {
-    formData.append("file", file);
-  }
-
-  status.textContent = "Uploading…";
-
-  fetch(ENDPOINT, {
-    method: "POST",
-    body: formData
-  })
-  .then(res => res.text())
-  .then(text => {
-    status.textContent = "✅ Upload complete\n\n" + text;
-  })
-  .catch(err => {
-    status.textContent = "❌ Error:\n" + err;
-  });
-}
-</script>
+  <button type="submit">Upload</button>
+</form>
 
 </body>
 </html>
